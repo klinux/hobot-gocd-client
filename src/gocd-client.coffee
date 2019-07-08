@@ -1,21 +1,28 @@
 VersionService = require './services/versionservice'
 PipelineService = require './services/pipelineservice'
+HealthService = require './services/healthservice'
 
 # Description
 #   a script that makes it possible to communicate with gocd
 #
 # Configuration:
 #   GOCD_HOST - the host adress of GOCD (example: http://127.0.0.1:8080)
+#   GOCD_USER - Username to connect with GOCD
+#   GOCD_PWD - Password to connect with GOCD
 #
 # Commands:
 #   hubot gocd version - Will answer with the version of GOCD
 #   hubot gocd build <pipeline> - Triggers a pipeline with the given name
+#   hubot gocd list - List all pipelines
+#   hubot gocd add repository name git_path - Add repository with pipeline as code
 #
 # Notes:
 #   user is hardcoded at the moment
 #
-# Author:
-#   Thomas Andolf <thomas.andolf@gmail.com>GOCD_USER = process.env.GOCD_USER
+# Original Author:
+#   Thomas Andolf <thomas.andolf@gmail.com>
+# Changed by:
+#   Kleber Rocha <klinux@gmail.com>
 
 module.exports = (robot) ->
 
@@ -29,6 +36,10 @@ module.exports = (robot) ->
     versionService = new VersionService(robot);
     versionService.get conversation;
 
+  robot.respond /gocd health/i, (conversation) ->
+    healthService = new HealthService(robot);
+    healthService.get conversation;
+ 
   robot.respond /gocd build (.*)/i, (conversation) ->
     pipelineService = new PipelineService(robot);
     pipelineService.build(conversation);

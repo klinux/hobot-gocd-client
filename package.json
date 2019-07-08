@@ -1,0 +1,39 @@
+{
+  "name": "hubot-gocd-client",
+  "description": "a gocd client that lets you control gocd from hubot",
+  "version": "1.0.0",
+  "author": "Thomas Andolf <thomas.andolf@gmail.com>",
+  "license": "MIT",
+  "keywords": "hubot, hubot-scripts, go, gocd",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hubot-scripts/hubot-gocd-client.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hubot-scripts/hubot-gocd-client/issues"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "hubot": "3.3.2"
+  },
+  "devDependencies": {
+    "bluebird": "latest",
+    "chai": "latest",
+    "co": "latest",
+    "coffee-script": "latest",
+    "superagent": "latest",
+    "mime": "latest",
+    "grunt": "latest",
+    "grunt-cli": "latest",
+    "grunt-contrib-watch": "latest",
+    "grunt-mocha-test": "latest",
+    "hubot-test-helper": "latest",
+    "matchdep": "latest",
+    "mocha": "latest",
+    "sinon": "latest"
+  },
+  "main": "index.coffee",
+  "scripts": {
+    "test": "grunt test"
+  }
+}

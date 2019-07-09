@@ -14,8 +14,10 @@ class MaterialService extends Client
         conversation.reply "Um erro foi encontrado :( #{err}"
         return
       data = JSON.parse body
+      response = ""
       for result in data
-        conversation.reply result.description
-        conversation.reply result.fingerprint
+        response += "#{result.description} #{result.fingerprint}\n"
+      conversation.reply "Lista de Materials"
+      conversation.reploy response
 
 module.exports = MaterialService

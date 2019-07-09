@@ -18,6 +18,6 @@ class MaterialService extends Client
       for result in data
         response += "#{result.description} #{result.fingerprint}\n"
       conversation.reply "Lista de Materials"
-      conversation.reploy response
+      conversation.reply response
 
 module.exports = MaterialService

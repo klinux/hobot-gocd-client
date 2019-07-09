@@ -14,6 +14,9 @@ class HealthService extends Client
         conversation.reply "Encountered an error :( #{err}"
         return
       data = JSON.parse body
-      conversation.reply data.health
+      if data.health is "OK"
+        conversation.reply "GOCD is healthy"
+      else
+        conversation.reply "GOCD is down"
 
 module.exports = HealthService

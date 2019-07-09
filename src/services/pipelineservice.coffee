@@ -18,7 +18,7 @@ class PipelineService extends Client
 
   build: (conversation) ->
     pipeline = conversation.match[1]
-    @http.path("/go/api/" + pipeline + "/schedule")
+    @http.path("/go/api/pipelines/" + pipeline + "/schedule")
     .header('Authorization', @auth).header('Confirm', 'true')
     .post() (err, res, body) ->
       if err

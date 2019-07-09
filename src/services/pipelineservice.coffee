@@ -26,8 +26,8 @@ class PipelineService extends Client
       postData = querystring.stringify({
         "materials": [
           {
-            "fingerprint": fingerprint,
-            "revision": revision
+            "fingerprint": "#{fingerprint}",
+            "revision": "#{revision}"
           }
         ],
         "update_materials_before_scheduling": true

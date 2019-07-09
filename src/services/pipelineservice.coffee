@@ -25,16 +25,15 @@ class PipelineService extends Client
       postData = querystring.stringify({
         "materials": [
           {
-            "fingerprint": "7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730",
             "revision": revision
-            }
+          }
         ],
         "update_materials_before_scheduling": true
       });
 
     @http.path("/go/api/pipelines/" + pipeline + "/schedule")
     .header('Authorization', @auth)
-    .header('Confirm', 'true')
+    .header('X-GoCD-Confirm', 'true')
     .header('Accept', 'application/vnd.go.cd.v1+json')
     .header('Content-Type', 'application/json')
     .post(postData) (err, res, body) ->
@@ -63,7 +62,7 @@ class PipelineService extends Client
     console.log postData
     @http.path("/go/api/pipelines/" + pipeline + "/pause")
     .header('Authorization', @auth)
-    .header('Confirm', 'true')
+    .header('X-GoCD-Confirm', 'true')
     .header("ContentType", "application/x-www-form-urlencoded")
     .post(postData) (err, res, body) ->
       if err
@@ -81,7 +80,7 @@ class PipelineService extends Client
   unpause: (conversation) ->
     pipeline = conversation.match[1]
     @http.path("/go/api/pipelines/" + pipeline + "/unpause")
-    .header('Authorization', @auth).header('Confirm', 'true')
+    .header('Authorization', @auth).header('X-GoCD-Confirm', 'true')
     .post() (err, res, body) ->
       if err
         conversation.reply "Encountered an error :( #{err}"

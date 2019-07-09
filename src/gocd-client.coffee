@@ -2,6 +2,7 @@ VersionService = require './services/versionservice'
 PipelineService = require './services/pipelineservice'
 HealthService = require './services/healthservice'
 DashboardService = require './services/dashboardservice'
+MaterialService = require './services/materialservice'
 
 # Description
 #   a script that makes it possible to communicate with gocd
@@ -44,6 +45,10 @@ module.exports = (robot) ->
   robot.respond /gocd list/i, (conversation) ->
     dashboardService = new DashboardService(robot);
     dashboardService.list(conversation);
+
+  robot.respond /gocd material/i, (conversation) ->
+    materialService = new MaterialService(robot);
+    materialService.get conversation;
  
   robot.respond /gocd build (.*)/i, (conversation) ->
     pipelineService = new PipelineService(robot);

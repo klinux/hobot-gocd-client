@@ -18,13 +18,15 @@ class PipelineService extends Client
 
   build: (conversation) ->
     pipeline = conversation.match[1]
-    revision = conversation.match[2]
+    fingerprint = conversation.match[2]
+    revision = conversation.match[3]
     postData = ""
 
-    if revision
+    if fingerprint and revision
       postData = querystring.stringify({
         "materials": [
           {
+            "fingerprint": fingerprint,
             "revision": revision
           }
         ],
@@ -38,19 +40,19 @@ class PipelineService extends Client
     .header('Content-Type', 'application/json')
     .post(postData) (err, res, body) ->
       if err
-        conversation.reply "Encountered an error :( #{err}"
+        conversation.reply "Um erro foi encontrado :( #{err}"
         return
-      if res.statusCode is 202
-        conversation.reply 'Yes Sir, pipeline: ' + pipeline + ' has been started'
+      else if res.statusCode is 202
+        conversation.reply 'Ok neoner, seu pipeline: ' + pipeline + ' foi inciado.'
         return
-      if res.statusCode is 404
-        conversation.reply 'Im sorry Sir, but i couldn\'t find the pipeline ' + pipeline + ' for you, can you please check the spelling?'
+      else if res.statusCode is 404
+        conversation.reply 'Lamento neoner, mas não pude achar o pipeline ' + pipeline + ' pra você, você pode confirmar este nome?'
         return
-      if res.statusCode is 409
-        conversation.reply 'Im sorry Sir, but i couldn\'t start the pipeline ' + pipeline + ' cause it\'s already running!'
+      else if res.statusCode is 409
+        conversation.reply 'Lamento neoner, mas eu não pude iniciar o pipeline ' + pipeline + ' causa: ele esta sendo executado!'
         return
       else
-        conversation.reply 'Im sorry Sir, something went wrong... ' + body
+        conversation.reply 'Desculpe-me, alguma coisa deu errado... ' + body
         return
 
   pause: (conversation) ->

@@ -19,7 +19,10 @@ class PipelineService extends Client
   build: (conversation) ->
     pipeline = conversation.match[1]
     @http.path("/go/api/pipelines/" + pipeline + "/schedule")
-    .header('Authorization', @auth).header('Confirm', 'true')
+    .header('Authorization', @auth)
+    .header('Confirm', 'true')
+    .header('Accept', 'application/vnd.go.cd.v1+json')
+    .header('Content-Type', 'application/json')
     .post() (err, res, body) ->
       if err
         conversation.reply "Encountered an error :( #{err}"

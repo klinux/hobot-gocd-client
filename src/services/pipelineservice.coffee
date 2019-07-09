@@ -32,6 +32,7 @@ class PipelineService extends Client
         ],
         'update_materials_before_scheduling': true
       });
+    console.log postData
 
     @http.path("/go/api/pipelines/" + pipeline + "/schedule")
     .header('Authorization', @auth)

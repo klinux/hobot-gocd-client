@@ -13,9 +13,10 @@ class MaterialService extends Client
       if err
         conversation.reply "Um erro foi encontrado :( #{err}"
         return
-      data = JSON.parse body
+      data = JSON.parse(body)
       response = ""
       for result in data
+        console.log result
         response += "#{result.description} #{result.fingerprint}\n"
       conversation.reply "Lista de Materials\n" + response
 

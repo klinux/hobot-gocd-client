@@ -24,7 +24,7 @@ class PipelineService extends Client
       if err
         conversation.reply "Um erro foi encontrado :( #{err}"
           return
-      else res.statusCode is 200
+      if res.statusCode is 200
         data = JSON.parse(body)
         for key, value of data
           console.log "#{key} and #{value}"
@@ -40,16 +40,8 @@ class PipelineService extends Client
     
     if revision
       fingerprint = fingerprint()
-      if fingerprint and revision
-        postData = {
-          "materials": [
-            {
-              "fingerprint": "#{fingerprint}",
-              "revision": "#{revision}"
-            }
-          ],
-          "update_materials_before_scheduling": true
-        };
+      if fingerprint
+        postData = { "materials": [ { "fingerprint": "#{fingerprint}", "revision": "#{revision}" } ], "update_materials_before_scheduling": true };
       console.log postData
 
     @http.path("/go/api/pipelines/" + pipeline + "/schedule")

@@ -18,12 +18,26 @@ class PipelineService extends Client
 
   build: (conversation) ->
     pipeline = conversation.match[1]
+    revision = conversation.match[2]
+    postData = ""
+
+    if revision
+      postData = querystring.stringify({
+        "materials": [
+          {
+            "fingerprint": "7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730",
+            "revision": revision
+            }
+        ],
+        "update_materials_before_scheduling": true
+      });
+
     @http.path("/go/api/pipelines/" + pipeline + "/schedule")
     .header('Authorization', @auth)
     .header('Confirm', 'true')
     .header('Accept', 'application/vnd.go.cd.v1+json')
     .header('Content-Type', 'application/json')
-    .post() (err, res, body) ->
+    .post(postData) (err, res, body) ->
       if err
         conversation.reply "Encountered an error :( #{err}"
         return

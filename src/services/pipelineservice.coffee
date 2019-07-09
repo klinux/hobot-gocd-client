@@ -1,5 +1,4 @@
 Client = require './client'
-
 querystring = require 'querystring'
 
 class PipelineService extends Client
@@ -22,35 +21,6 @@ class PipelineService extends Client
     revision = conversation.match[2]
     fingerprint = ""
     postData = ""
-    
-    if revision
-      @http.path("/go/api/config/pipeline_groups")
-      .header('Authorization', @auth)
-      .header('Accept', 'application/vnd.go.cd.v1+json')
-      .header('Accept', 'application/vnd.go.cd.v1+json')
-      .get() (err, res, body) ->
-        if err
-          conversation.reply "Um erro foi encontrado :( #{err}"
-          return
-        else res.statusCode is 200
-          data = JSON.parse(body)
-          for key, value of data
-            console.log "#{key} and #{value}"
-            if value is pipeline
-              fingerprint = value.materials.fingerprint
-              console.log fingerprint
-      
-      if fingerprint and revision
-        postData = {
-          "materials": [
-            {
-              "fingerprint": "#{fingerprint}",
-              "revision": "#{revision}"
-            }
-          ],
-          "update_materials_before_scheduling": true
-        };
-      console.log postData
 
     @http.path("/go/api/pipelines/" + pipeline + "/schedule")
     .header('Authorization', @auth)

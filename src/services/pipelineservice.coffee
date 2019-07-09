@@ -34,9 +34,11 @@ class PipelineService extends Client
           return
         else res.statusCode is 200
           data = JSON.parse(body)
-          if data[0].pipelines is pipeline
-            fingerprint = data[0].materials.fingerprint
-            console.log fingerprint
+          for key, value of data
+            console.log "#{key} and #{value}"
+            if value is pipeline
+              fingerprint = value.materials.fingerprint
+              console.log fingerprint
 
       if fingerprint and revision
         postData = {

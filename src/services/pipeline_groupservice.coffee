@@ -1,7 +1,7 @@
 Client = require './client'
 querystring = require 'querystring'
 
-class DashboardService extends Client
+class PipelineGroupService extends Client
 
   GOCD_USER = process.env.GOCD_USER
   GOCD_PWD = process.env.GOCD_PWD
@@ -27,7 +27,7 @@ class DashboardService extends Client
         response = ""
         try
           content = JSON.parse(body)
-          for pipes in content.pipeline_groups
+          for pipes in content.pipelines
             index = jobList.indexOf(pipes.name)
             if index == -1
               jobList.push(pipes.pipeline_groups)
@@ -54,4 +54,4 @@ class DashboardService extends Client
         conversation.reply 'Im sorry Sir, something went wrong... ' + body
         return
 
-module.exports = DashboardService
+module.exports = PipelineGroupService

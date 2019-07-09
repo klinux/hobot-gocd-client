@@ -1,7 +1,7 @@
 VersionService = require './services/versionservice'
 PipelineService = require './services/pipelineservice'
 HealthService = require './services/healthservice'
-DashboardService = require './services/dashboardservice'
+PipelineGroupService = require './services/pipeline_groupservice'
 MaterialService = require './services/materialservice'
 
 # Description
@@ -43,8 +43,8 @@ module.exports = (robot) ->
     healthService.get conversation;
 
   robot.respond /gocd list/i, (conversation) ->
-    dashboardService = new DashboardService(robot);
-    dashboardService.list(conversation);
+    pipeline_groupService = new PipelineGroupService(robot);
+    pipeline_groupService.list(conversation);
 
   robot.respond /gocd material/i, (conversation) ->
     materialService = new MaterialService(robot);

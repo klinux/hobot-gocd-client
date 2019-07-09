@@ -24,13 +24,13 @@ class PipelineService extends Client
 
     if fingerprint and revision
       postData = querystring.stringify({
-        "materials": [
+        'materials': [
           {
-            "fingerprint": "#{fingerprint}",
-            "revision": "#{revision}"
+            'fingerprint': fingerprint,
+            'revision': revision
           }
         ],
-        "update_materials_before_scheduling": true
+        'update_materials_before_scheduling': true
       });
 
     @http.path("/go/api/pipelines/" + pipeline + "/schedule")

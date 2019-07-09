@@ -22,7 +22,7 @@ class PipelineService extends Client
     revision = conversation.match[2]
     fingerprint = ""
     postData = ""
-
+    
     if revision
       @http.path("/go/api/config/pipeline_groups")
       .header('Authorization', @auth)
@@ -39,7 +39,7 @@ class PipelineService extends Client
             if value is pipeline
               fingerprint = value.materials.fingerprint
               console.log fingerprint
-
+      
       if fingerprint and revision
         postData = {
           "materials": [

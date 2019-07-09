@@ -49,8 +49,8 @@ module.exports = (robot) ->
   robot.respond /gocd material/i, (conversation) ->
     materialService = new MaterialService(robot);
     materialService.get conversation;
- 
-  robot.respond /gocd build (.*) (.*)/i, (conversation) ->
+    
+  robot.respond /gocd build (.*)/i, (conversation) ->
     pipelineService = new PipelineService(robot);
     pipelineService.build(conversation);
 

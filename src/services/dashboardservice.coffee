@@ -13,13 +13,12 @@ class DashboardService extends Client
     console.warn("hubot-gocd-client has no set password for the gocd-user (GOCD_PWD is empty)!")
 
   constructor: (robot) ->
-    super(robot, "/dashboard")
+    super(robot, "/go/api/dashboard")
     @auth = 'Basic ' + new Buffer(GOCD_USER + ':' + GOCD_PWD).toString('base64')
 
   list: (conversation) ->
-    pipeline = conversation.match[1]
     @http.path("/go/api/dashboard")
-    .header('Authorization', @auth).header('Confirm', 'true')
+    .header('Authorization', @auth).header('Accept', 'application/vnd.go.cd.v3+json')
     .get() (err, res, body) ->
       if err
         conversation.reply "Encountered an error :( #{err}"
@@ -29,7 +28,6 @@ class DashboardService extends Client
         try
           content = JSON.parse(body)
           for pipes in content.pipeline_groups
-            # Add the job to the jobList
             index = jobList.indexOf(pipes.name)
             if index == -1
               jobList.push(pipes.pipeline_groups)
@@ -47,7 +45,7 @@ class DashboardService extends Client
               response += "[#{index + 1}] #{pipes.names} #{pipelines-name}\n"
           conversation.reply response
         catch error
-          conversation.reploy error
+          conversation.reply error
         return
       if res.statusCode is 404
         conversation.reply 'Im sorry Sir, but i couldn\'t find any list of pipelines'

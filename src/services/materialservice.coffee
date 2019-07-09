@@ -17,7 +17,7 @@ class MaterialService extends Client
       response = ""
       for result in data
         response += "#{result.description} #{result.fingerprint}\n"
-      conversation.reply "Lista de Materials"
+      conversation.reply "Lista de Materials\n"
       conversation.reply response
 
 module.exports = MaterialService

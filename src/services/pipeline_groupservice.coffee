@@ -55,7 +55,6 @@ class PipelineGroupService extends Client
         return
 
   materials: (conversation) ->
-    console.log "Entrou na func"
     pipeline = conversation.match[1]
     @http.path("/go/api/config/pipeline_groups")
     .header('Authorization', @auth)
@@ -78,18 +77,15 @@ class PipelineGroupService extends Client
                     type = material.type
                     response += "\n[*pipeline group*]: #{pipeGroup.name}\n \t*Pipeline*: #{pipelineName}\n \t*Fingerprint*: #{fingerprint}\n \t*Description*: #{description}\n \t*Type*: #{type}"
           else
-            console.log "Entrou"
             for pipeGroup in data
-              console.log "Entrou 2"
               for pipe in pipeGroup.pipelines
                 pipelineName = pipe.name
                 for material in pipe.materials
-                  console.log "Entrou 3"
                   fingerprint = material.fingerprint
                   description = material.description
                   type = material.type
                   response += "\n[*pipeline group*]: #{pipeGroup.name}\n \t*Pipeline*: #{pipelineName}\n \t*Fingerprint*: #{fingerprint}\n \t*Description*: #{description}\n \t*Type*: #{type}"
-          console.log "Log: " + pipeline
+
           conversation.reply response
         catch error
           conversation.reply error

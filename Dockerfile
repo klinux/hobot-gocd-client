@@ -12,7 +12,7 @@ ENV HOME /home/marvin
 USER marvin
 WORKDIR /home/marvin
 RUN echo n | yo hubot --defaults
-RUN npm install hubot-slack hubot-scripts https://github.com/klinux/hobot-gocd-client.git --save
+RUN npm install hubot-slack hubot-scripts --save
 RUN rm -f hubot-scripts.json
 
 # enable plugins

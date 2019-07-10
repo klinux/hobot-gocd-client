@@ -46,8 +46,8 @@ module.exports = (robot) ->
     pipeline_groupService.list(conversation);
 
   robot.respond /gocd materials (.*)/i, (conversation) ->
-    pipeline_groupService = new PipelineGroupService(robot);
-    pipeline_groupService.materials(conversation);
+    materials_groupService = new PipelineGroupService(robot);
+    materials_groupService.materials(conversation);
   
   robot.respond /gocd build (.*) (.*) (.*)/i, (conversation) ->
     pipelineService = new PipelineService(robot);

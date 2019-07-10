@@ -65,32 +65,15 @@ class PipelineGroupService extends Client
       if res.statusCode is 200
         response = ""
         try
-          data = JSON.parse(body)
+          data = JSON.parse body
           
           if pipeline
             for key, value of data
-              if value.pipelines[0].name is pipeline
-                description = value.pipelines[0].materials[0].description
-                fingerprint = value.pipelines[0].materials[0].fingerprint
-                type = value.pipelines[0].materials[0].type
-                response += "Pipeline: #{pipeline}\n Description: #{description}\n Fingerprint: #{fingerprint}\n Type: #{type}"
-          else    
-            for pipes in data.pipelines
-            index = jobList.indexOf(pipes.name)
-            if index == -1
-              jobList.push(pipes.pipeline_groups)
-              index = jobList.indexOf(pipes.name)
-
-            if pipes.pipelines
-              for pipe in pipes.pipelines
-                if content.pipelines.name is pipe
-                  for pipename in content.pipelines
-                    pipelines-name = content.pipelines.name
-            else
-              pipeline-names is ""
-          
-            if (filter.test pipes.name)
-              response += "[#{index + 1}] #{pipes.names} #{pipelines-name}\n"
+              if value.pipelines[key].name is pipeline
+                description = value.pipelines[key].materials[key].description
+                fingerprint = value.pipelines[key].materials[key].fingerprint
+                type = value.pipelines[key].materials[key].type
+                response += "\nPipeline: #{pipeline}\n Description: #{description}\n Fingerprint: #{fingerprint}\n Type: #{type}"
           conversation.reply response
         catch error
           conversation.reply error
@@ -101,43 +84,5 @@ class PipelineGroupService extends Client
       else
         conversation.reply 'Im sorry Sir, something went wrong... ' + body
         return
-
-        list: (conversation) ->
-          @http.path("/go/api/dashboard")
-          .header('Authorization', @auth).header('Accept', 'application/vnd.go.cd.v3+json')
-          .get() (err, res, body) ->
-            if err
-              conversation.reply "Encountered an error :( #{err}"
-              return
-            if res.statusCode is 200
-              response = ""
-              try
-                content = JSON.parse(body)
-                for pipes in content.pipelines
-                  index = jobList.indexOf(pipes.name)
-                  if index == -1
-                    jobList.push(pipes.pipeline_groups)
-                    index = jobList.indexOf(pipes.name)
-      
-                  if pipes.pipelines
-                    for pipe in pipes.pipelines
-                      if content.pipelines.name is pipe
-                        for pipename in content.pipelines
-                          pipelines-name = content.pipelines.name
-                  else
-                    pipeline-names is ""
-                
-                  if (filter.test pipes.name)
-                    response += "[#{index + 1}] #{pipes.names} #{pipelines-name}\n"
-                conversation.reply response
-              catch error
-                conversation.reply error
-              return
-            if res.statusCode is 404
-              conversation.reply 'Im sorry Sir, but i couldn\'t find any list of pipelines'
-              return
-            else
-              conversation.reply 'Im sorry Sir, something went wrong... ' + body
-              return
 
 module.exports = PipelineGroupService

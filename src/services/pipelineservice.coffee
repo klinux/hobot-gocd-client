@@ -18,25 +18,11 @@ class PipelineService extends Client
   
   build: (conversation) ->
     pipeline = conversation.match[1]
-    revision = conversation.match[2]
+    fingerprint = conversation.match[2]
+    revision = conversation.match[3]
     postData = ""
-    
+
     if revision
-      @http.path("/go/api/config/pipeline_groups")
-      .header('Authorization', @auth)
-      .get() (err, res, body) ->
-        if err
-          conversation.reply "Um erro foi encontrado :( #{err}"
-          return
-        if res.statusCode is 200
-          data = JSON.parse body
-          for key, value of data
-            value_parse = JSON.toString(value)
-            console.log "#{key} and #{value}"
-            if value is pipeline
-              fingerprint = value.materials.fingerprint
-              console.log fingerprint
-              return fingerprint
       if fingerprint
         postData = JSON.stringify({ 
           "materials": [ 

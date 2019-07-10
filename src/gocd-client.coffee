@@ -3,7 +3,7 @@ PipelineService = require './services/pipelineservice'
 HealthService = require './services/healthservice'
 PipelineGroupService = require './services/pipeline_groupservice'
 
-# Description
+# Description:
 #   a script that makes it possible to communicate with gocd
 #
 # Configuration:
@@ -20,7 +20,7 @@ PipelineGroupService = require './services/pipeline_groupservice'
 # Notes:
 #   user is hardcoded at the moment
 #
-# Original Author:
+# Author:
 #   Thomas Andolf <thomas.andolf@gmail.com>
 # Changed by:
 #   Kleber Rocha <klinux@gmail.com>
@@ -44,8 +44,12 @@ module.exports = (robot) ->
   robot.respond /gocd list/i, (conversation) ->
     pipeline_groupService = new PipelineGroupService(robot);
     pipeline_groupService.list(conversation);
-    
-  robot.respond /gocd build (.*)/i, (conversation) ->
+
+  robot.respond /gocd materials (.*)/i, (conversation) ->
+    pipeline_groupService = new PipelineGroupService(robot);
+    pipeline_groupService.materials(conversation);
+  
+  robot.respond /gocd build (.*) (.*) (.*)/i, (conversation) ->
     pipelineService = new PipelineService(robot);
     pipelineService.build(conversation);
 

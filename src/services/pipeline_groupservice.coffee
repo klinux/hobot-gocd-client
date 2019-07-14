@@ -26,32 +26,20 @@ class PipelineGroupService extends Client
       if res.statusCode is 200
         response = ""
         try
-          content = JSON.parse(body)
-          for pipes in content.pipelines
-            index = jobList.indexOf(pipes.name)
-            if index == -1
-              jobList.push(pipes.pipeline_groups)
-              index = jobList.indexOf(pipes.name)
-
-            if pipes.pipelines
-              for pipe in pipes.pipelines
-                if content.pipelines.name is pipe
-                  for pipename in content.pipelines
-                    pipelines-name = content.pipelines.name
-            else
-              pipeline-names is ""
-          
-            if (filter.test pipes.name)
-              response += "[#{index + 1}] #{pipes.names} #{pipelines-name}\n"
-          conversation.reply response
+          data = JSON.parse body
+          for pipeGroup in data
+            for pipe in pipeGroup.pipelines
+              pipelineName = pipe.name.toUpperCase()
+              response += "#{pipelineName}\n"
+          conversation.reply "\n*Lista de Pipelines:*\n #{response}"
         catch error
           conversation.reply error
         return
       if res.statusCode is 404
-        conversation.reply 'Im sorry Sir, but i couldn\'t find any list of pipelines'
+        conversation.reply 'Desculpe-me não consegui buscar a lista de pipelines.'
         return
       else
-        conversation.reply 'Im sorry Sir, something went wrong... ' + body
+        conversation.reply 'Desculpe-me alguma coisa deu errado... ' + body
         return
 
   materials: (conversation) ->
@@ -65,27 +53,26 @@ class PipelineGroupService extends Client
       if res.statusCode is 200
         response = ""
         try
-          data = JSON.parse(body)
+          data = JSON.parse body
           if pipeline
             for pipeGroup in data
               for pipe in pipeGroup.pipelines
                 if pipe.name is pipeline
-                  pipelineName = pipe.name
+                  pipelineName = pipe.name.toUpperCase()
                   for material in pipe.materials
                     fingerprint = material.fingerprint
                     description = material.description
                     type = material.type
-                    response += "\n[*pipeline group*]: #{pipeGroup.name}\n \t*Pipeline*: #{pipelineName}\n \t*Fingerprint*: #{fingerprint}\n \t*Description*: #{description}\n \t*Type*: #{type}"
+                    response += "\n> #{pipeGroup.name}\n\t*pipeline*: #{pipelineName}\n\t*fingerprint*: #{fingerprint}\n\t*description*: \"#{description}\"\n\t*type*: #{type}"
           else
             for pipeGroup in data
               for pipe in pipeGroup.pipelines
-                pipelineName = pipe.name
+                pipelineName = pipe.name.toUpperCase()
                 for material in pipe.materials
                   fingerprint = material.fingerprint
                   description = material.description
                   type = material.type
-                  response += "\n[*pipeline group*]: #{pipeGroup.name}\n \t*Pipeline*: #{pipelineName}\n \t*Fingerprint*: #{fingerprint}\n \t*Description*: #{description}\n \t*Type*: #{type}"
-
+                  response += "\n> #{pipeGroup.name}\n\t*pipeline*: #{pipelineName}\n\t*fingerprint*: #{fingerprint}\n\t*description*: \"#{description}\"\n\t*type*: #{type}"
           conversation.reply response
         catch error
           conversation.reply error

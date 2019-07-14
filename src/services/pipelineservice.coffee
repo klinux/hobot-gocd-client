@@ -77,7 +77,7 @@ class PipelineService extends Client
       if res.statusCode is 404
         conversation.reply "Could not find pipeline " + pipeline
       else
-        conversation.reply 'Im sorry Sir, something went wrong... ' + body
+        conversation.reply 'Desculpe-me alguma coisa deu errado... ' + body
         return
 
   unpause: (conversation) ->
@@ -94,15 +94,67 @@ class PipelineService extends Client
       if res.statusCode is 404
         conversation.reply "Could not find pipeline " + pipeline
       else
-        conversation.reply 'Im sorry Sir, something went wrong... ' + body
+        conversation.reply 'Desculpe-me alguma coisa deu errado... ' + body
         return
 
   getStatus: (conversation) ->
     pipeline = conversation.match[1]
-    conversation.reply "getting status for pipeline " + pipeline
+    @http.path("/go/api/pipelines/" + pipeline + "/status")
+    .header('Authorization', @auth)
+    .get() (err, res, body) ->
+      if err
+        conversation.reply "Encountered an error :( #{err}"
+        return
+      if res.statusCode is 200
+        status = ""
+        try
+          data = JSON.parse body
+
+          paused = data.paused
+          schedulable = data.schedulable
+          locked = data.locked
+
+          if paused
+            status = "Pausado por: #{data.pausedBy}, motivo: #{data.pauseCause}"
+            
+          if not schedulable and not locked
+            status = "O pipeline esta em execução."
+
+          if locked
+            status = "O pipeline esta bloqueado."
+
+          if not locked and not paused and schedulable
+            status = "O pipeline esta pronto para ser executado."
+
+          conversation.reply "\n*Pipeline Status:*\n #{status}"
+        catch error
+          conversation.reply error
+        return
+      if res.statusCode is 404
+        conversation.reply 'Desculpe-me não consegui buscar os status do pipeline'
+        return
+        
+      else
+        conversation.reply 'Desculpe-me alguma coisa deu errado... ' + body
+        return
 
   release: (conversation) ->
     pipeline = conversation.match[1]
-    conversation.reply "releasing lock for pipeline " + pipeline
+    @http.path("/go/api/pipelines/" + pipeline + "/unlock")
+    .header('Accept', 'application/vnd.go.cd.v1+json')
+    .header('Authorization', @auth)
+    .header('X-GoCD-Confirm', 'true')
+    .post() (err, res, body) ->
+      if err
+        conversation.reply "Encountered an error :( #{err}"
+        return
+      if res.statusCode is 200
+        conversation.reply 'O ' + pipeline + ' foi desbloqueado para você.'
+        return
+      if res.statusCode is 404
+        conversation.reply "Não foi possível encontrar o pipeline: " + pipeline
+      else
+        conversation.reply 'Desculpe-me alguma coisa deu errado... ' + body
+        return
 
 module.exports = PipelineService

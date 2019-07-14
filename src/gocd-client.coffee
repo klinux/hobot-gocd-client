@@ -34,7 +34,7 @@ module.exports = (robot) ->
   robot.hear /help/, (res) ->
     res.send "\nLista de comandos:\n
     *list all pipelines*: Responde uma lista com todos os pipelines.\n
-    *build last*: Executar o pipeline com a última revision.\n
+    *build <pipeline> last*: Executar o pipeline com a última revision.\n
     *build <pipeline> <fingerprint> <revision>*: Executar o pipeline, especificando a revision desejada.\n
     \tPara obter o fingerprint do pipeline, use o comando material <pipeline-name> para obter o id do repositório.\n
     *material <pipeline-name>*: Responde o fingerprint dos repositório de um pipeline.\n
@@ -68,7 +68,7 @@ module.exports = (robot) ->
     material_groupService = new PipelineGroupService(robot);
     material_groupService.materials(conversation);
 
-  robot.hear /build last/i, (conversation) ->
+  robot.hear /build (.*) last/i, (conversation) ->
     pipelineService = new PipelineService(robot);
     pipelineService.build(conversation);
 

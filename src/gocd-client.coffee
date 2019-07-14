@@ -34,7 +34,10 @@ module.exports = (robot) ->
   robot.hear /help/, (res) ->
     res.send "\nLista de comandos:\n
     *list all pipelines*: Responde uma lista com todos os pipelines.\n
-    *material*: <pipeline-name>: Responde o fingerprint dos repositório de um pipeline.\n
+    *build last*: Executar o pipeline com a última revision.\n
+    *build <pipeline> <fingerprint> <revision>*: Executar o pipeline, especificando a revision desejada.\n
+    \tPara obter o fingerprint do pipeline, use o comando material <pipeline-name> para obter o id do repositório.\n
+    *material <pipeline-name>*: Responde o fingerprint dos repositório de um pipeline.\n
     *materials*: Responde o fingerprint de todos os pipelines.\n
     *config get <name>*: Responde a configuração de um config repo.\n
     *config add <name> <plugin> <type> <url> <pattern> <username> <password> <branch>*: \n
